@@ -86,14 +86,14 @@
 						
                     
                         
+                    
+                        
 							
                         <li>
                             <a href="/archives/">categories</a>
                         </li>
 							
 						
-                    
-                        
                     
 					
 					
@@ -188,22 +188,22 @@
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>说到原型链，javascript 中，万物皆对象，而 javascript 规定，所有对象都有自己的原型对象(prototype) ，一方面，任何对象都可以充当其他对象的原型，另一方面，原型（prototype）也是对象，也拥有自己的原型，因此形成的链就是原型链。到这里我就啰嗦几句，javascript 的设计者Brendan Eich在设计这门语言之初，只是想它在网页上实现简单的交互，比如表单提交前进行简单的校验，所以没有设计类与继承的概念，因为觉得这样的话太正式了，但是受时代的影响，javascript里面都是对象，虽然没有继承，但是也要一种机制，把这些对象联系起来，这种机制就是原型链。话不多说，上图</p>
 <h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><ul>
-<li>假设有一个内存空间（正方形表示），这片内存里放了一个构造函数Dog(用三角形表示)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function Dog () &#123;</span><br><span class="line">    this.leg = 4;</span><br><span class="line">    this.bray = function () &#123;</span><br><span class="line">        alert(&apos;wangwang&apos;)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>假设有一个内存空间（正方形表示），这片内存里放了一个构造函数Dog(用三角形表示)<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.leg = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">this</span>.bray = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="string">'wangwang'</span>)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p><img src="http://p8x2gzqw0.bkt.clouddn.com/pic1.png" alt="图片描述"></p>
 <ul>
-<li>设置构造函数的原型函数（prototype）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Dog.prototype = &#123;</span><br><span class="line">    spacies: &apos;dog&apos;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Dog.prototype)    // &#123;spacies: &apos;dog&apos;&#125;</span><br><span class="line">console.log(Dog.prototype.constructor === Dog)   // true</span><br></pre></td></tr></table></figure>
+<li>设置构造函数的原型函数（prototype）<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Dog.prototype = &#123;</span><br><span class="line">    spacies: <span class="string">'dog'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(Dog.prototype)    <span class="comment">// &#123;spacies: 'dog'&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(Dog.prototype.constructor === Dog)   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>那么，就会在另外一个内存中存储 Dog 的 prototype 对象（椭圆形表示)，如图所示，构造函数的protype指向它的原型，而 prototype1 的 constructor 指向构造函数<br><img src="http://p8x2gzqw0.bkt.clouddn.com/pic2_1.png" alt="图片描述"></p>
 <ul>
 <li>现在我们用 构造函数 Dog 来创建对象 dog1, dog2, …</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var dog1 = new Dog();</span><br><span class="line">dog1.name = &apos;大黄&apos;;</span><br><span class="line">dog1.color = &apos;yellow&apos;;</span><br><span class="line"></span><br><span class="line">var dog2 = new Dog();</span><br><span class="line">dog2.name = &apos;小黑&apos;;</span><br><span class="line">dog2.color = &apos;black&apos;;</span><br><span class="line"></span><br><span class="line">console.log(dog1.name)     // 大黄</span><br><span class="line">console.log(dog2.name)     // 小黑</span><br><span class="line">console.log(dog1.spacies)  // dog</span><br><span class="line">console.log(dog2.spacies)  // dog</span><br><span class="line">console.log(dog1.constructor === Dog)   // true</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dog1 = <span class="keyword">new</span> Dog();</span><br><span class="line">dog1.name = <span class="string">'大黄'</span>;</span><br><span class="line">dog1.color = <span class="string">'yellow'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> dog2 = <span class="keyword">new</span> Dog();</span><br><span class="line">dog2.name = <span class="string">'小黑'</span>;</span><br><span class="line">dog2.color = <span class="string">'black'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(dog1.name)     <span class="comment">// 大黄</span></span><br><span class="line"><span class="built_in">console</span>.log(dog2.name)     <span class="comment">// 小黑</span></span><br><span class="line"><span class="built_in">console</span>.log(dog1.spacies)  <span class="comment">// dog</span></span><br><span class="line"><span class="built_in">console</span>.log(dog2.spacies)  <span class="comment">// dog</span></span><br><span class="line"><span class="built_in">console</span>.log(dog1.constructor === Dog)   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://p8x2gzqw0.bkt.clouddn.com/pic3_1.png" alt="图片描述"></p>
 <p>可以看到由构造函数创造的对象dog1，dog2，他们的constructor指向构造函数Dog，而他们的__proto__指向Dog的prototype，<strong>而且当调用对象的一个属性或方法时，首先会找对象本身的属性或方法，找不到时，会找该对象的__proto__对象（也就是构造函数的prototype对象），如果还是找不到则返回undefined</strong><br>另外可以看出来dog1，dog2，…的__proto__指向同一块内存地址，这样设计是为了节省内存资源,不用每次创建都存储他们相同的属性，当修改dog1的 __proto__ 时，dog2的 __proto__ 也会改变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dog1.__proto__.spacies = &apos;animal&apos;; // 或者Dog.prototype.spacies = &apos;animal&apos;</span><br><span class="line">console.log(dog2.spacies)    // animal</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dog1.__proto__.spacies = <span class="string">'animal'</span>; <span class="comment">// 或者Dog.prototype.spacies = 'animal'</span></span><br><span class="line"><span class="built_in">console</span>.log(dog2.spacies)    <span class="comment">// animal</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>上面也说到了，每一个对象都有自己的__proto__，而作为构造函数Dog的prototype对象，也会有自己的对象原型，以此类推，原型链的顶端是一个null,如图的红线串起来的链就是原型链<br><img src="http://p8x2gzqw0.bkt.clouddn.com/pic4_1.png" alt="图片描述"></li>
 </ul>
@@ -216,7 +216,7 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/05/27/发布订阅模式/" data-toggle="tooltip" data-placement="top"
+                        <a href="/2018/05/27/设计模式--发布订阅模式/" data-toggle="tooltip" data-placement="top"
                            title="发布订阅模式">&larr; Previous Post</a>
                     </li>
                     

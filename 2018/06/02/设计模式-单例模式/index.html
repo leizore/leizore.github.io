@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        发布订阅模式｜leizore的个人博客
+        设计模式--单例模式｜leizore的个人博客
         
     </title>
 
-    <link rel="canonical" href="https://leizore.github.io/2018/05/27/发布订阅模式/">
+    <link rel="canonical" href="https://leizore.github.io/2018/06/02/设计模式-单例模式/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -86,14 +86,14 @@
 						
                     
                         
+                    
+                        
 							
                         <li>
                             <a href="/archives/">categories</a>
                         </li>
 							
 						
-                    
-                        
                     
 					
 					
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://p8x2gzqw0.bkt.clouddn.com/95-1606231I213.jpg">
+     src="http://p8x2gzqw0.bkt.clouddn.com/c938f300d31226ceabae170db5411948.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/95-1606231I213.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/c938f300d31226ceabae170db5411948.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
 
     
@@ -155,12 +155,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>发布订阅模式</h1>
+                    <h1>设计模式--单例模式</h1>
                     
                     <span class="meta">
                          作者 Zhao lei
                         <span>
-                          日期 2018-05-27
+                          日期 2018-06-02
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -178,7 +178,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            发布订阅模式
+            设计模式--单例模式
         </span>
     </div>
 </header>
@@ -189,20 +189,16 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>发布订阅者模式，是javascript甚至大多数语言都有的语言模式，比较概念的解释是，</p>
-<blockquote>
-<p>订阅者把自己想订阅的事件注册到调度中心，当该事件触发时候，发布者发布该事件到调度中心（第三方），由调度中心统一调度订阅者注册到调度中心的处理代码。</p>
-</blockquote>
-<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p><strong>优点</strong><br>1.一对多。<br>一个发布者可以绑定多个订阅者，当事件触发时，由调度中心全部通知。<br>2.解耦。<br>发布订阅者模式中，订阅者是不知道也不关心事件是为什么触发，是由哪一个事件触发，只知道事件触发时候，会告诉自己。发布者也不用一一通知，只要告诉调度中心，事件触发了就好了。所以代码松耦合。<br>3.程序便于扩展。<br><strong>缺点：</strong><br>实现方式麻烦？</p>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>用平时身边的例子解释，比如你被阿里邀请面试，面试完你问面试官什么时候出结果，面试官告诉你结果出来时候会通知你的，这样你就不用天天打电话问面试结果了，等面试结果出来，面试官会把面试结果统一发邮件给面试者，当你收到面试结果后，进行下一步操作，是到阿里上班，还是面试下一家。</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">var observer = function () &#123;</span><br><span class="line">    var _observer = &#123;&#125;;</span><br><span class="line">    let _queue = &#123;&#125;;     // 所有事件的队列</span><br><span class="line">    /**</span><br><span class="line">    * @param 注册的事件名称</span><br><span class="line">    * @param 事件触发时执行的函数</span><br><span class="line">    */</span><br><span class="line">    _observer.on = function (eventName, fn) &#123;</span><br><span class="line">        if (Object.prototype.toString.call(fn) !== &apos;[object Function]&apos;) return;</span><br><span class="line">        if (_queue[eventName] &amp;&amp; _queue[eventName].length &gt; 0) &#123;</span><br><span class="line">            // 如果之前注册过eventName事件</span><br><span class="line">            _queue[eventName].push(fn);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 之前没有注册过eventName事件</span><br><span class="line">            _queue[eventName] = [fn];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">     /**</span><br><span class="line">    * @param 已经触发的事件（发布事件）</span><br><span class="line">    */</span><br><span class="line">    _observer.trigger = function (triggerEventName) &#123;</span><br><span class="line">        var args = Array.prototype.slice.call(arguments,1);</span><br><span class="line">        if (!_queue[triggerEventName]) return;</span><br><span class="line">        for (var i = 0; i &lt; _queue[triggerEventName].length; i++) &#123;</span><br><span class="line">            _queue[triggerEventName][i].apply(null, args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 移除注册事件</span><br><span class="line">    _observer.remove = function (removeEventName) &#123;</span><br><span class="line">        for(var k in _queue) &#123;</span><br><span class="line">            if (k === removeEventName) &#123;</span><br><span class="line">                delete _queue[k];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 移除所有注册事件</span><br><span class="line">    _observer.removeAll = function () &#123;</span><br><span class="line">        _queue = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    return _observer;</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
-<h2 id="发布订阅者模式与观察者模式区别"><a href="#发布订阅者模式与观察者模式区别" class="headerlink" title="发布订阅者模式与观察者模式区别"></a>发布订阅者模式与观察者模式区别</h2><p>发布订阅者模式与观察者模式是很相似的，之前的好多网站、博客上也把它们画上等号，但是我前段时间接到一个面试，问我，发布订阅者模式与观察者模式有什么却别，当时说一样的，结果面试管说其实不一样，好吧，一脸懵逼，结束时候自己查阅了一下，确实不太一样。</p>
-<p><strong>区别</strong></p>
-<ul>
-<li>在观察者模式中，观察者是知道Subject的，Subject一直保持对观察者进行记录。然而，在发布订阅模式中，发布者和订阅者不知道对方的存在。它们只有通过调度中心进行通信。</li>
-<li>在发布订阅模式中，组件是松散耦合的，正好和观察者模式相反。</li>
-<li>观察者模式大多数时候是同步的，比如当事件触发，Subject就会去调用观察者的方法。而发布-订阅模式大多数时候是异步的（使用消息队列）<br><strong>举个例子</strong><br>观察者模式就像你没有经验却买了比特币或者股票，然后害怕赔钱一直盯着k线图，一有变化立马就知道了，然后做下一步操作，是观望是买是抛都可以，熟悉vue的同学应该知道watch这个方法吧，对，就是观察者模式，国外有一图拿过来给你们看看<br><img src="e13422af7a8b46329ae4b94946b007bf.png" alt="图片描述"><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>1.<a href="https://juejin.im/post/5a14e9edf265da4312808d86" target="_blank" rel="noopener">观察者模式 vs 发布-订阅模式</a><br>2.<a href="http://developers-club.com/posts/270339/" target="_blank" rel="noopener">Observer vs Pub-Sub</a></li>
-</ul>
+                <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。<br>单例模式是一种常用的模式，有一些对象我们往往只需要一个。在js开发中，单例模式的用途非常广泛。试想一下，当我们单击登录按钮的时候，页面中会出现一个登录框，而这个浮窗是唯一的，无论单击多少次登录按钮，这个浮窗只会被创建一次。因此这个登录浮窗就适合用单例模式。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>在使用一种模式之前，我们最好要知道，这种模式的使用场景。用了这么久的单例模式，竟全然不知！用它具体有哪些优点呢？<br>1.可以被实例化，且实例化一次。<br>2.使用单例模式可以使代码组织的更为一致，使代码容易阅读和维护。<br>3.可以用来划分命名空间，减少全局变量的数量。</p>
+<h2 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h2><p>由于概念太容易理解，那么多举几个例子吧（网上扒来的）<br>实例1<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单例模式</span></span><br><span class="line"><span class="keyword">var</span> Singleton = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Singleton.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 获取实例对象</span></span><br><span class="line"><span class="keyword">var</span> getInstance = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> instance = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!instance) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Singleton(name);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="comment">// 测试单例模式的实例</span></span><br><span class="line"><span class="keyword">var</span> a = getInstance(<span class="string">"aa"</span>);</span><br><span class="line"><span class="keyword">var</span> b = getInstance(<span class="string">"bb"</span>);</span><br><span class="line"><span class="comment">// 因为单例模式是只实例化一次，所以下面的实例是相等的</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a === b); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>实例2  单例模式用于划分命名空间</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现单例模式弹窗</span></span><br><span class="line"><span class="keyword">var</span> createWindow = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> div;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!div) &#123;</span><br><span class="line">            div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">            div.innerHTML = <span class="string">"我是弹窗内容"</span>;</span><br><span class="line">            div.style.display = <span class="string">'none'</span>;</span><br><span class="line">            <span class="built_in">document</span>.body.appendChild(div);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> div;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">"Id"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 点击后先创建一个div元素</span></span><br><span class="line">    <span class="keyword">var</span> win = createWindow();</span><br><span class="line">    win.style.display = <span class="string">"block"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实例3  如何写出一个通用的单例模式，也就是<strong>创建某一个对象之前，首先判断这个对象存在不存在，如果存在的话，返回该对象，如果没有，创建一个该对象然后再返回</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> createIframe = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> iframe;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!iframe) &#123;</span><br><span class="line">            iframe = <span class="built_in">document</span>.createElement(<span class="string">"iframe"</span>);</span><br><span class="line">            iframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">            <span class="built_in">document</span>.body.appendChild(iframe);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> iframe;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>当看到上面代码之后，应该能看出来如何使用了，但是，写出高逼格的代码一直是我们追求的，不是么，那么将上面的代码进行改写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getInstance</span> (<span class="params"></span>) </span>&#123;   <span class="comment">// 匿名函数保证 result 变量不被污染</span></span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// fn 是对象生成函数</span></span><br><span class="line">        <span class="keyword">return</span> result || (result = fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.w3cvip.org/topics/109" target="_blank" rel="noopener">Javascript 常用的设计模式详解</a></p>
 
                 <hr>
                 
@@ -211,8 +207,8 @@
                     
                     
                     <li class="next">
-                        <a href="/2018/05/21/图说原型链/" data-toggle="tooltip" data-placement="top"
-                           title="图说原型链">Next Post &rarr;</a>
+                        <a href="/2018/05/27/设计模式--发布订阅模式/" data-toggle="tooltip" data-placement="top"
+                           title="发布订阅模式">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -228,7 +224,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优缺点"><span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举例"><span class="toc-text">举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现"><span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布订阅者模式与观察者模式区别"><span class="toc-text">发布订阅者模式与观察者模式区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用实例"><span class="toc-text">使用实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
                 </div>
             </div>
         </div>
