@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="好看的皮囊千篇一律，有趣的灵魂万里挑一">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="leizore" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        190行代码实现mvvm模式｜leizore的个人博客
+        
+    </title>
+
+    <link rel="canonical" href="https://leizore.github.io/2018/06/16/190行代码实现mvvm模式/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/fd65390c619353c30fbceb6ccfbc5a35.jpg?imageView2/0/format/jpg/q/5|imageslim')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    leizore
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/archives/">categories</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://p8x2gzqw0.bkt.clouddn.com/qyqx.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/qyqx.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>190行代码实现mvvm模式</h1>
+                    
+                    <span class="meta">
+                         作者 Zhao lei
+                        <span>
+                          日期 2018-06-16
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#js"
+                           title="js">js</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            190行代码实现mvvm模式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>网上讲 vue 原理，mvvm 模式的实现，数据双向绑定的文章一搜一大堆，不管写的谁好谁坏，都是写的自己的理解，我也发一篇文章记录自己的理解，如果对看官有帮助，那也是我莫大的荣幸，不过看完之后，你们以后如果再被面试官问到 vue 的原理的时候，千万不要只用一句【通过 javascrit 的 Object.defineProperty 将 data 进行劫持，发生改变的时候改变对应节点的值】这么笼统的话来应付了。如果有不懂的，可以问我。话不多说，上效果图：</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="http://p8x2gzqw0.bkt.clouddn.com/20180614-070630.gif" alt="20180614-070630.gif"></p>
+<p>以及代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123;a&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">button</span> <span class="attr">v-on:click</span>=<span class="string">"changeA"</span>&gt;</span>changeA<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">h2</span> <span class="attr">v-html</span>=<span class="string">"b"</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"b"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./Watcher.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./Compile.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./Dep.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./Observe.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./MVVM.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">var vue = new MVVM(&#123;</span></span><br><span class="line"><span class="undefined">    el: '#root',</span></span><br><span class="line"><span class="undefined">    data: &#123;</span></span><br><span class="line"><span class="undefined">        a: 'hello',</span></span><br><span class="line"><span class="undefined">        b: 'world'</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    methods: &#123;</span></span><br><span class="line"><span class="undefined">        changeA () &#123;</span></span><br><span class="line"><span class="undefined">            this.a = 'hi'</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>怎么样，是不是跟vue的写法很像，跟着我的思路，你们也可以的。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>talk is cheap, show you the picture<br><img src="http://p8x2gzqw0.bkt.clouddn.com/v2-3cbad9f6d8d17a89a0a6ecf56c818f35_hd.jpg" alt="v2-3cbad9f6d8d17a89a0a6ecf56c818f35_hd.jpg"></p>
+<p>如图，实现一个mvvm，需要几个辅助工具，分别是 Observer, Compile, Dep, Watcher。每个工具各司其职，再由 MVVM 统一掉配从而实现数据的双向绑定，下面我分别介绍下接下来出场的几位菇凉</p>
+<ol>
+<li>Compile 能够将页面中的页面初始化，对指令进行解析，把 data 对应的值渲染上去的同时，new 一个 Watcher，并告诉它，当渲染的这个数据发生改变时告诉我，我好更新视图。</li>
+<li>Observer 能够实现将 data 中的数据通过Object.defineProperty进行劫持，当获取 data 中的值的时候，触发get里方法，把 Compile 新建的 Watcher 抓过来，关到 Dep（发布订阅者模式）的小黑屋里狂…，当值修改的时候，触发 set 里的方法，通知小黑屋（Dep）里所有 Watcher 菇凉们，你们解放啦。</li>
+<li>Dep 就是传说中的小黑屋了，其内在原理是发布订阅者模式，不了解发布订阅者模式的话可以看我 <a href="https://leizore.github.io/2018/05/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F--%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">这篇文章</a></li>
+<li>Watcher 们从小黑屋里逃出来之后就赶紧跑到对应的 Compile 那，告诉他开始更新视图吧，看，我是爱你的。</li>
+</ol>
+<p>哈哈，通过我很(lao)幽(si)默(ji)的讲解。你们是不是都想下车了？<br><img src="http://p8x2gzqw0.bkt.clouddn.com/227960.jpg" alt="227960.jpg"></p>
+<p>嗯，知道大概是怎么回事之后，我分别讲他们的功能。不过话说前面，mvvm 模式之前有千丝万缕的联系，必须要全部看完，才能真正理解 mvvm 的原理。</p>
+<h3 id="Observe"><a href="#Observe" class="headerlink" title="Observe"></a>Observe</h3><p>我的 mvvm 模式中 Observe 的功能有两个。1.对将data中的数据绑定到上下文环境上，2.对数据进行劫持，当数据变化的时候通知 Dep。下面用一个 demo 来看看，如何将数据绑定到环境中，并劫持数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  var data = &#123;</span></span><br><span class="line"><span class="undefined">    a: 'hello',</span></span><br><span class="line"><span class="undefined">    b: 'world'</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">  class Observer &#123;</span></span><br><span class="line"><span class="undefined">    constructor(obj, vm) &#123;</span></span><br><span class="line"><span class="undefined">      this.walk(obj, vm);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    walk(obj, vm) &#123;</span></span><br><span class="line"><span class="undefined">      Object.keys(obj).forEach(key =&gt; &#123;</span></span><br><span class="line"><span class="undefined">        Object.defineProperty(vm, key, &#123;</span></span><br><span class="line"><span class="undefined">          configurable: true,</span></span><br><span class="line"><span class="undefined">          enumerable: true,</span></span><br><span class="line"><span class="undefined">          get () &#123;</span></span><br><span class="line"><span class="undefined">            console.log('获取obj的值' + obj[key])</span></span><br><span class="line"><span class="undefined">            return obj[key];</span></span><br><span class="line"><span class="undefined">          &#125;,</span></span><br><span class="line"><span class="undefined">          set(newVal) &#123;</span></span><br><span class="line"><span class="undefined">            var val = obj[key];</span></span><br><span class="line"><span class="undefined">            if (val === newVal) return;</span></span><br><span class="line"><span class="undefined">            console.log(`值更新啦`);</span></span><br><span class="line"><span class="undefined">            obj[key] = newVal;</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">      &#125;)</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">  new Observer(data, window);</span></span><br><span class="line"><span class="undefined">  console.log(window.a);</span></span><br><span class="line"><span class="undefined">  window.a = 'hi';</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到将 data 数据绑定到 window 上，当数据变化时候，会打印 ‘值更新啦’，那么 data 变化 是如何通知 Dep 的呢？首先我们要明白，observe 只执行一遍，将数据绑定到 mvvm 实例上，Dep也只有一个，之前说把所有的 Watcher 抓过来，全放在这个 Dep 里，还是看代码说话把。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span> (<span class="params">obj, vm</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!obj || <span class="keyword">typeof</span> obj !== <span class="string">'object'</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Observer(obj, vm)</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(obj, vm) &#123;</span><br><span class="line">        <span class="comment">// vm 代表上下文环境，也是指向 mvvm 的实例 （调用的时候会传入）</span></span><br><span class="line">        <span class="keyword">this</span>.walk(obj, vm);</span><br><span class="line">        <span class="comment">// 实例化一个 Dep；</span></span><br><span class="line">        <span class="keyword">this</span>.dep = <span class="keyword">new</span> Dep();</span><br><span class="line">    &#125;</span><br><span class="line">    walk (obj, vm) &#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">        <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(vm, key, &#123;</span><br><span class="line">                configurable: <span class="literal">true</span>,</span><br><span class="line">                enumerable: <span class="literal">true</span>,</span><br><span class="line">                get () &#123;</span><br><span class="line">                    <span class="comment">// 当获取 vm 的值的时候，如果 Dep 有 target 时执行，目的是将 Watcher 抓过来，后面还会说明</span></span><br><span class="line">                    <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">                        self.dep.depend();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> obj[key];</span><br><span class="line">                &#125;,</span><br><span class="line">                set (newVal) &#123;</span><br><span class="line">                    <span class="keyword">var</span> val = obj.key;</span><br><span class="line">                    <span class="keyword">if</span> (val === newVal) <span class="keyword">return</span>;</span><br><span class="line">                    obj[key] = newVal;</span><br><span class="line">                    <span class="comment">// 当 劫持的值发生变化时候触发，通知 Dep</span></span><br><span class="line">                    self.dep.notify();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Dep"><a href="#Dep" class="headerlink" title="Dep"></a>Dep</h3><p>接下来讲讲 Dep 的实现，Dep 功能很简单，难点是如何将 watcher 联系起来，先看代码吧。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (props) &#123;</span><br><span class="line">    <span class="keyword">this</span>.subs = [];</span><br><span class="line">    <span class="keyword">this</span>.uid = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  addSub (sub) &#123;</span><br><span class="line">    <span class="keyword">this</span>.subs.push(sub);</span><br><span class="line">    <span class="keyword">this</span>.uid++;</span><br><span class="line">  &#125;</span><br><span class="line">  notify () &#123;</span><br><span class="line">    <span class="keyword">this</span>.subs.forEach(<span class="function"><span class="params">sub</span> =&gt;</span> &#123;</span><br><span class="line">      sub.update();</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  depend (sub) &#123;</span><br><span class="line">    Dep.target.addDep(<span class="keyword">this</span>, sub);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">Dep.target = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<p>subs 是一个数组，用来存储 Watcher 的，当数据更新时候（由Observer告知），会触发 Dep 的 notify 方法，调用 subs 里所有 Watcher 的 update 方法。<br>接下来是不是迫不及待的想知道 Dep 是如何将 Watcher 抓过来的吧（污污污），别着急我们先看看 Watcher 是如何诞生的。</p>
+<h3 id="Compile"><a href="#Compile" class="headerlink" title="Compile"></a>Compile</h3><p>我觉得 Compile 是 mvvm 中最劳苦功高的一个了，它的任务是页面过来时候，初始化视图，将页面中的大括号里字符串解析成对应的值，还有指令解析，如绑定值的 v-text、v-html 还有绑定的事件 v-on，还有创造 Watcher 去监听值的变化，当值变化的时候又要更新节点的视图。<br>我们先看看 Compile 是如何初始化视图的</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123;a&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-html</span>=<span class="string">"b"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> data = &#123;</span></span><br><span class="line"><span class="javascript">    a: <span class="string">'hello'</span>,</span></span><br><span class="line"><span class="javascript">    b: <span class="string">'world'</span></span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="class"><span class="keyword">class</span> <span class="title">Compile</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">constructor</span>(el, vm) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">this</span>.$el = <span class="keyword">this</span>.isElementNode(el) ? el : <span class="built_in">document</span>.querySelector(el);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">this</span>.$vm = vm;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="keyword">this</span>.$el) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.compileElement(<span class="keyword">this</span>.$el);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      compileElement(el) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 将所有的最小节点拿过来，循环判断是文本节点就看看是不是 &#123;&#123;&#125;&#125; 包裹的字符串，是元素节点就看看是不是v-html喝v-text</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> childNodes = <span class="built_in">Array</span>.from(el.childNodes);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (childNodes.length &gt; <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">          childNodes.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> childArr = <span class="built_in">Array</span>.from(child.childNodes);</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 匹配&#123;&#123;&#125;&#125;里面的内容</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> reg = <span class="regexp">/\&#123;\&#123;((?:.)+?)\&#125;\&#125;/</span>;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (childArr.length &gt; <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.compileElement(child)</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (<span class="keyword">this</span>.isTextNode(child)) &#123;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">var</span> text = child.textContent.trim();</span></span><br><span class="line"><span class="javascript">              <span class="keyword">var</span> matchTextArr = reg.exec(text);</span></span><br><span class="line"><span class="javascript">              <span class="keyword">var</span> matchText;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">if</span> (matchTextArr &amp;&amp; matchTextArr.length &gt; <span class="number">1</span>) &#123;</span></span><br><span class="line"><span class="undefined">                matchText = matchTextArr[1];</span></span><br><span class="line"><span class="javascript">                <span class="keyword">this</span>.compileText(child, matchText);</span></span><br><span class="line"><span class="undefined">              &#125;</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.isElementNode(child)) &#123;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.compileNode(child);</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">          &#125;)</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      compileText(node, exp) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">this</span>.bind(node, <span class="keyword">this</span>.$vm, exp, <span class="string">'text'</span>);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      compileNode(node) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> attrs = <span class="built_in">Array</span>.from(node.attributes);</span></span><br><span class="line"><span class="javascript">        attrs.forEach(<span class="function"><span class="params">attr</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">if</span> (<span class="keyword">this</span>.isDirective(attr.name)) &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> directiveName = attr.name.substr(<span class="number">2</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">if</span> (directiveName.includes(<span class="string">'on'</span>)) &#123;</span></span><br><span class="line"><span class="javascript">              <span class="comment">// 绑定事件</span></span></span><br><span class="line"><span class="undefined">              node.removeAttribute(attr.name);</span></span><br><span class="line"><span class="javascript">              <span class="keyword">var</span> eventName = directiveName.split(<span class="string">':'</span>)[<span class="number">1</span>];</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.addEvent(node, eventName, attr.value);</span></span><br><span class="line"><span class="javascript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">              <span class="comment">// v-text v-html 绑定值</span></span></span><br><span class="line"><span class="undefined">              node.removeAttribute(attr.name);</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.bind(node, <span class="keyword">this</span>.$vm, attr.value, directiveName);</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      addEvent(node, eventName, exp) &#123;</span></span><br><span class="line"><span class="javascript">        node.addEventListener(eventName, <span class="keyword">this</span>.$vm.$options.methods[exp].bind(<span class="keyword">this</span>.$vm));</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      bind(node, vm, exp, dir) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (dir === <span class="string">'text'</span>) &#123;</span></span><br><span class="line"><span class="undefined">          node.textContent = vm[exp];</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">'html'</span>) &#123;</span></span><br><span class="line"><span class="undefined">          node.innerHTML = vm[exp];</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">'value'</span>) &#123;</span></span><br><span class="line"><span class="undefined">          node.value = vm[exp];</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 是否是指令</span></span></span><br><span class="line"><span class="undefined">      isDirective(attr) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (<span class="keyword">typeof</span> attr !== <span class="string">'string'</span>) <span class="keyword">return</span>;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> attr.includes(<span class="string">'v-'</span>);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 元素节点</span></span></span><br><span class="line"><span class="undefined">      isElementNode(node) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> node.nodeType === <span class="number">1</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 文本节点</span></span></span><br><span class="line"><span class="undefined">      isTextNode(node) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> node.nodeType === <span class="number">3</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> Compile(<span class="string">'#root'</span>, data);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>额，感觉还好理解吧，这里只是讲了 Compile 是如何将data中的值渲染到视图上，买了个关子，没有说如何创建 Watcher 的，思考一下，如果要创建 Watcher ，应该在哪个位置创建比较好呢？<br>答案是渲染值的同时，同时创造一个 Watcher 来监听，上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Compile</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (el, vm) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$el = <span class="keyword">this</span>.isElementNode(el) ? el : <span class="built_in">document</span>.querySelector(el);</span><br><span class="line">    <span class="keyword">this</span>.$vm = vm;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.$el) &#123;</span><br><span class="line">      <span class="keyword">this</span>.$fragment = <span class="keyword">this</span>.nodeFragment(<span class="keyword">this</span>.$el);</span><br><span class="line">      <span class="keyword">this</span>.compileElement(<span class="keyword">this</span>.$fragment);</span><br><span class="line">      <span class="keyword">this</span>.$el.appendChild(<span class="keyword">this</span>.$fragment);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  nodeFragment (el) &#123;</span><br><span class="line">    <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span><br><span class="line">    <span class="keyword">let</span> child;</span><br><span class="line">    <span class="keyword">while</span> (child = el.firstChild) &#123;</span><br><span class="line">      fragment.appendChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fragment;</span><br><span class="line">  &#125;</span><br><span class="line">  compileElement (el) &#123;</span><br><span class="line">    <span class="keyword">var</span> childNodes = <span class="built_in">Array</span>.from(el.childNodes);</span><br><span class="line">    <span class="keyword">if</span> (childNodes.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      childNodes.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> childArr = <span class="built_in">Array</span>.from(child.childNodes);</span><br><span class="line">        <span class="comment">// 匹配&#123;&#123;&#125;&#125;里面的内容</span></span><br><span class="line">        <span class="keyword">var</span> reg = <span class="regexp">/\&#123;\&#123;((?:.)+?)\&#125;\&#125;/</span>;</span><br><span class="line">        <span class="keyword">if</span> (childArr.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">this</span>.compileElement(child)</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.isTextNode(child)) &#123;</span><br><span class="line">          <span class="keyword">var</span> text = child.textContent.trim();</span><br><span class="line">          <span class="keyword">var</span> matchTextArr = reg.exec(text);</span><br><span class="line">          <span class="keyword">var</span> matchText;</span><br><span class="line">          <span class="keyword">if</span> (matchTextArr &amp;&amp; matchTextArr.length &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            matchText = matchTextArr[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">this</span>.compileText(child, matchText);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.isElementNode(child)) &#123;</span><br><span class="line">          <span class="keyword">this</span>.compileNode(child);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  compileText(node, exp) &#123;</span><br><span class="line">    <span class="keyword">this</span>.bind(node, <span class="keyword">this</span>.$vm, exp, <span class="string">'text'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  compileNode (node) &#123;</span><br><span class="line">    <span class="keyword">var</span> attrs = <span class="built_in">Array</span>.from(node.attributes);</span><br><span class="line">    attrs.forEach(<span class="function"><span class="params">attr</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.isDirective(attr.name)) &#123;</span><br><span class="line">        <span class="keyword">var</span> directiveName = attr.name.substr(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span> (directiveName.includes(<span class="string">'on'</span>)) &#123;</span><br><span class="line">          node.removeAttribute(attr.name);</span><br><span class="line">          <span class="keyword">var</span> eventName = directiveName.split(<span class="string">':'</span>)[<span class="number">1</span>];</span><br><span class="line">          <span class="keyword">this</span>.addEvent(node, eventName, attr.value);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (directiveName.includes(<span class="string">'model'</span>)) &#123;</span><br><span class="line">          <span class="comment">// v-model</span></span><br><span class="line">          <span class="keyword">this</span>.bind(node, <span class="keyword">this</span>.$vm, attr.value, <span class="string">'value'</span>);</span><br><span class="line">          node.addEventListener(<span class="string">'input'</span>, (e) =&gt; &#123;</span><br><span class="line">            <span class="keyword">this</span>.$vm[attr.value] = e.target.value;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          <span class="comment">// v-text v-html</span></span><br><span class="line">          node.removeAttribute(attr.name);</span><br><span class="line">          <span class="keyword">this</span>.bind(node, <span class="keyword">this</span>.$vm, attr.value, directiveName);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  addEvent(node, eventName, exp) &#123;</span><br><span class="line">    node.addEventListener(eventName, <span class="keyword">this</span>.$vm.$options.methods[exp].bind(<span class="keyword">this</span>.$vm));</span><br><span class="line">  &#125;</span><br><span class="line">  bind (node, vm, exp, dir) &#123;</span><br><span class="line">    <span class="keyword">if</span> (dir === <span class="string">'text'</span>) &#123;</span><br><span class="line">      node.textContent = vm[exp];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">'html'</span>) &#123;</span><br><span class="line">      node.innerHTML = vm[exp];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">'value'</span>) &#123;</span><br><span class="line">      node.value = vm[exp];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">new</span> Watcher(exp, vm, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (dir === <span class="string">'text'</span>) &#123;</span><br><span class="line">        node.textContent = vm[exp];</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">'html'</span>) &#123;</span><br><span class="line">        node.innerHTML = vm[exp];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  hasChildNode (node) &#123;</span><br><span class="line">    <span class="keyword">return</span> node.children &amp;&amp; node.children.length &gt; <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 是否是指令</span></span><br><span class="line">  isDirective (attr) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> attr !== <span class="string">'string'</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">return</span> attr.includes(<span class="string">'v-'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 元素节点</span></span><br><span class="line">  isElementNode (node) &#123;</span><br><span class="line">    <span class="keyword">return</span> node.nodeType === <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 文本节点</span></span><br><span class="line">  isTextNode (node) &#123;</span><br><span class="line">    <span class="keyword">return</span> node.nodeType === <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里比上面演示的demo多创建一个文档碎片，可以加快解析速度，另外在 80 行创建了 Watcher，当数据变化时，执行回调函数，从而更新视图。</p>
+<h3 id="Watcher"><a href="#Watcher" class="headerlink" title="Watcher"></a>Watcher</h3><p>期待已久的 Watcher 终于出来了，我们先看看它长什么样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (exp, vm, cb) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$vm = vm;</span><br><span class="line">    <span class="keyword">this</span>.$exp = exp;</span><br><span class="line">    <span class="keyword">this</span>.depIds = &#123;&#125;;</span><br><span class="line">    <span class="keyword">this</span>.getter = <span class="keyword">this</span>.parseGetter(exp);</span><br><span class="line">    <span class="keyword">this</span>.value = <span class="keyword">this</span>.get();</span><br><span class="line">    <span class="keyword">this</span>.cb = cb;</span><br><span class="line">  &#125;</span><br><span class="line">  update () &#123;</span><br><span class="line">    <span class="keyword">let</span> newVal = <span class="keyword">this</span>.get();</span><br><span class="line">    <span class="keyword">let</span> oldVal = <span class="keyword">this</span>.value;</span><br><span class="line">    <span class="keyword">if</span> (oldVal === newVal) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, newVal);</span><br><span class="line">    <span class="keyword">this</span>.value = newVal;</span><br><span class="line">  &#125;</span><br><span class="line">  get () &#123;</span><br><span class="line">    Dep.target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="keyword">this</span>.getter.call(<span class="keyword">this</span>.$vm, <span class="keyword">this</span>.$vm);</span><br><span class="line">    Dep.target = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;</span><br><span class="line">  parseGetter (exp) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/[^\w.$]/</span>.test(exp)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!obj) <span class="keyword">return</span>;</span><br><span class="line">      obj = obj[exp];</span><br><span class="line">      <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  addDep (dep) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.depIds.hasOwnProperty(dep.id)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.depIds[dep.id] = dep;</span><br><span class="line">      dep.subs.push(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也不怎么样嘛，只有30多行代码，接下来睁大眼睛啦，看看它是怎么被 Dep 抓过来的。</p>
+<ol>
+<li>当 Compile 创建 Watcher 出来的时候，也将 Dep.target 指向了 Watcher。同时获取了该节点要渲染的值，触发了 Observer 中的 get 方法，Dep.target 有值了，就执行 self.dep.depend();</li>
+<li>depend 方法里执行 Dep.target.addDep(this); 而现在 Dep.target 指向 Watcher,所以执行的是 Watcher 里的 addDep 方法 同时把 Dep 实例传过去。</li>
+<li>Watcher 里的 addDep 方法是将 Watcher 放在的 Dep实例的 subs 数组里。</li>
+<li>当vm里的值放生变化时，触发 Observer 的 set 方法，触发所有 subs 里的 Watcher 执行 Watcher 里的 update 方法。</li>
+<li>update 方法里有 Compile 的回调，从而更新视图。<br>好吧，真想大白了，原来 Watcher 是引诱 Dep 把自己装进小黑屋的。哈哈～<br>源码已放在我自己的git库里，点击<a href="https://github.com/leizore/mvvm" target="_blank" rel="noopener">这里</a>获取源码<br>讲了半天，正主该出来了，mvvm 是如何将上面四个小伙伴给自己打工的呢，其实很简单，上代码</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MVVM</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$options = options;</span><br><span class="line">    <span class="keyword">var</span> data = <span class="keyword">this</span>._data = <span class="keyword">this</span>.$options.data;</span><br><span class="line">    observe(data, <span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">new</span> Compile(options.el || <span class="built_in">document</span>.body, <span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就是实例 MVVM 的时候，调用数据劫持，和 Compile 初始化视图。到此就全部完成了mvvm模式。</p>
+<p><img src="http://p8x2gzqw0.bkt.clouddn.com/kuawo.png" alt="kuawo.png"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/27028242" target="_blank" rel="noopener">合格前端系列第三弹-实现一个属于我们自己的简易MVVM库</a></li>
+<li><a href="https://www.amazon.cn/dp/B01LAIZ70I" target="_blank" rel="noopener">vue.js 权威指南</a></li>
+</ol>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/06/02/设计模式-单例模式/" data-toggle="tooltip" data-placement="top"
+                           title="设计模式--单例模式">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observe"><span class="toc-text">Observe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dep"><span class="toc-text">Dep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Compile"><span class="toc-text">Compile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Watcher"><span class="toc-text">Watcher</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#js"
+                           title="js">js</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/qian-chang-ying-yue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/2884788167/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/leizore">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leizore 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://leizore.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-119313573-1';
+    var _gaDomain = 'https://leizore.github.io/';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://img.findaily.cn//kol/201805/ca05aca4-8c91-4cd1-ae1d-7317cc5e277a.png">
+</body>
+
+</html>
