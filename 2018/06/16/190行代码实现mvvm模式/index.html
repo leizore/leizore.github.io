@@ -225,7 +225,7 @@
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MVVM</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.$options = options;</span><br><span class="line">    <span class="keyword">var</span> data = <span class="keyword">this</span>._data = <span class="keyword">this</span>.$options.data;</span><br><span class="line">    observe(data, <span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">new</span> Compile(options.el || <span class="built_in">document</span>.body, <span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>就是实例 MVVM 的时候，调用数据劫持，和 Compile 初始化视图。到此就全部完成了mvvm模式。</p>
-<p><img src="http://p8x2gzqw0.bkt.clouddn.com/kuawo.png" alt="kuawo.png"></p>
+<p><img src="http://p8x2gzqw0.bkt.clouddn.com/20171103150970092152174.jpg" alt="kuawo.png"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a href="https://zhuanlan.zhihu.com/p/27028242" target="_blank" rel="noopener">合格前端系列第三弹-实现一个属于我们自己的简易MVVM库</a></li>
 <li><a href="https://www.amazon.cn/dp/B01LAIZ70I" target="_blank" rel="noopener">vue.js 权威指南</a></li>
