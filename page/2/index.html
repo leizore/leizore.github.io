@@ -22,7 +22,7 @@
         
     </title>
 
-    <link rel="canonical" href="https://leizore.github.io/archives/">
+    <link rel="canonical" href="https://leizore.github.io/page/2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -44,7 +44,7 @@
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
-" data-ishome = "false" >
+" data-ishome = "true" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -133,269 +133,288 @@
 </script>
 
 <!-- Main Content -->
+
+
 <style>
-    .intro-header .site-heading {
-        margin: 50px;
+
+    .custom-haojen-container .post-preview:nth-of-type(1),
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        text-align: center;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+        background-size: cover;
+        padding: 0;
+        height: 300px;
+        display: table;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.16);
     }
-    
-    header.intro-header {
-        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/d60fa800bf5ebb783324876772353913.jpg')
+
+    /*去掉诗歌的背景图片*/
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        background-image: none !important;
+        background-color: rgba(255, 248, 220, 0.5);
     }
-    
+
+    .custom-haojen-container .post-preview:nth-child(1) h2,
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta,
+    .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+        text-shadow: 0 0 40px rgba(0, 0, 0, 1);
+        letter-spacing: 1px;
+        color: #fff;
+        margin-top: 0;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta {
+        font-size: .9em;
+        font-weight: 300;
+        margin-top: 0;
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-child(1) .post-subtitle {
+        letter-spacing: 6px;
+        font-size: 18px;
+        font-family: unset;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .75)
+    }
+
+    /*不显示摘要*/
+    .custom-haojen-container .post-preview:nth-child(1) .post-content-preview {
+        display: none
+    }
+
+    /*只第一个显示背景图片*/
+    .custom-haojen-container .post-preview:not(:nth-child(1)) {
+        background-image: none !important;
+    }
+
+    /*第一个分界线去掉*/
+    .custom-haojen-container hr:nth-of-type(1) {
+        display: none;
+    }
+
+    /*主题*/
+    .custom-haojen-container .post-preview:nth-of-type(1) > a {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    /*诗词标题*/
+    .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+        font-size: 35px;
+        font-family: STKaiti;
+        color: rgba(0, 0, 0, .8);
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) .post-meta {
+        color: #0e2231;
+    }
+
+    @media (max-width: 768px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 240px;
+        }
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 28px !important;
+            margin-top: 0;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .custom-haojen-container .post-preview:nth-of-type(1) > a {
+            padding: 20px
+        }
+    }
+
+    /*手机屏幕*/
+    @media (max-width: 400px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 195px;
+        }
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 20px !important;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+            font-size: 16px;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) a {
+            padding: 30px 20px;
+        }
+    }
 </style>
 
 <!-- Page Header -->
-<header class="intro-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
+    <div class="row">
+        <header class="intro-header">
+            <div class="container">
                 <div class="site-heading text-center">
-                    <h1>archives</h1>
-                    <span class="subheading">可以根据归档日期检索所有文件</span>
+                    <div class="about-me">
+                        <!--移动端头部显示-->
+                        <img src="https://img.findaily.cn//kol/201805/ca05aca4-8c91-4cd1-ae1d-7317cc5e277a.png"/>
+                        <h5><a href="/about/">Zhao lei</a></h5>
+                        <p>好看的皮囊千篇一律，有趣的灵魂万里挑一</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
     </div>
-</header>
-
+</div>
 <!-- Main Content -->
-<div class="container">
+<div class="container custom-haojen-container">
+    <!-- Post Container -->
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- archive list -->
-            
-				
-				
-				
-					
-					
-					<div class="archive archive-year" data-date="2018">
-						<h2 class="archive-title">
-						<span class="fa fa-archive">
-							<a href="/archives/2018">2018</a>
-						</span>
-						</h2>
-				
-				
-					
-					
-					<div class="archive archive-month" data-date="201806">
-						<h3 class="archive-title">
-							<a href="/archives/2018/06">06</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/06/29/throttle-和-debounce-简单实现/">
-                        <h4 class="post-title">
-                            throttle 和 debounce 简单实现
-                        </h4>
+        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
+            <!-- Main Content -->
+
+
+
+<div class="post-preview "
+     style="background-image: url('http://p8x2gzqw0.bkt.clouddn.com/c0bb868d24505df61f4005899b199f97.jpg')">
+    <a href="/2017/12/11/网站优化之路/">
+        <h2 class="post-title">
+            网站优化之路---图片优化，图片从模糊到清晰
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-12-11
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                前言作为一个有追求有信仰的程序员，做一个网站绝不是仅仅能用就行了，当我们实现功能后，或者在写代码的过程中就要考虑怎么去优化，一个网站要去优化，作为前端要考虑的是资源优化（减少 http 请求啊，固定图片压缩啊，精灵图合并啊，或者使用图标字体啊），安全问题（代码压缩丑化，存储 cookie 或者s..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+
+<!-- 翻页 pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/">&larr; Newer Posts</a>
+    </li>
+    
+    
+</ul>
+
+
+        </div>
+        <!-- Sidebar Container -->
+        <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+
+            <!-- About Me -->
+            <section class="visible-md visible-lg" style="padding: 0 18px">
+                <div class="short-about">
+                    <!--侧边栏头像-->
+                    
+                    <img src="https://img.findaily.cn//kol/201805/ca05aca4-8c91-4cd1-ae1d-7317cc5e277a.png"/>
+                    
+                    <h5><a href="/about/">Zhao lei</a></h5>
+                    
+                    <p>好看的皮囊千篇一律，有趣的灵魂万里挑一</p>
+                    
+                    <hr>
+                    <!-- SNS Link 社交 -->
+                    <ul class="list-inline">
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/06/23/继承那些事/">
-                        <h4 class="post-title">
-                            继承那些事
-                        </h4>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/06/17/设计模式--工厂模式/">
-                        <h4 class="post-title">
-                            设计模式--工厂模式
-                        </h4>
+                        <li>
+                            <a target="_blank" href="https://segmentfault.com/u/leizore">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa  fa-stack-1x fa-inverse">sf</i>
+                                </span>
+                            </a>
+                        </li>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/06/16/190行代码实现mvvm模式/">
-                        <h4 class="post-title">
-                            190行代码实现mvvm模式
-                        </h4>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/06/02/设计模式-单例模式/">
-                        <h4 class="post-title">
-                            设计模式--单例模式
-                        </h4>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-					
-					</div><!--month-->
-					
-					
-					<div class="archive archive-month" data-date="201805">
-						<h3 class="archive-title">
-							<a href="/archives/2018/05">05</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/27/设计模式--发布订阅模式/">
-                        <h4 class="post-title">
-                            发布订阅模式
-                        </h4>
+
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/21/图说原型链/">
-                        <h4 class="post-title">
-                            图说原型链
-                        </h4>
+                        <li>
+                            <a target="_blank" href="http://weibo.com/2884788167/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-					
-					</div><!--month-->
-					
-					
-					<div class="archive archive-month" data-date="201802">
-						<h3 class="archive-title">
-							<a href="/archives/2018/02">02</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/02/05/下拉刷新，上拉加载-的基础款（基本实现）/">
-                        <h4 class="post-title">
-                            下拉刷新，上拉加载 的基础款（基本实现）
-                        </h4>
+
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-					
-					</div><!--month-->
-					</div><!--year-->
-					
-					
-					
-					<div class="archive archive-year" data-date="2017">
-						<h2 class="archive-title">
-						<span class="fa fa-archive">
-							<a href="/archives/2017">2017</a>
-						</span>
-						</h2>
-				
-				
-					
-					
-					<div class="archive archive-month" data-date="201712">
-						<h3 class="archive-title">
-							<a href="/archives/2017/12">12</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2017/12/21/swift4-UIView-animate-参数详解/">
-                        <h4 class="post-title">
-                            swift4 UIView.animate()  参数详解
-                        </h4>
+
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2017/12/15/前端模块化进程/">
-                        <h4 class="post-title">
-                            前端模块化进程，commonJS，AMD，CMD对比
-                        </h4>
+                        <li>
+                            <a target="_blank" href="https://github.com/leizore">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
                         
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2017/12/11/网站优化之路/">
-                        <h4 class="post-title">
-                            网站优化之路---图片优化，图片从模糊到清晰
-                        </h4>
+
                         
-                    </a>
+                    </ul>
                 </div>
-				<hr>
-				</div>
+            </section>
+
+            <!-- Featured Tags  标签 -->
             
+            <section>
+                <div class="tags">
+                    
+                    
+                    <a href="/Tags/#js" title="js"
+                       rel="7">js</a>
+                    
+                    
+                    
+                    <a href="/Tags/#优化" title="优化"
+                       rel="2">优化</a>
+                    
+                    
+                    
+                    
+                    
+                    <a href="/Tags/#设计模式" title="设计模式"
+                       rel="3">设计模式</a>
+                    
+                    
+                </div>
+            </section>
+            
+
+            
+
         </div>
     </div>
+</div>
 
 <!-- Footer -->
 <!-- Footer -->
