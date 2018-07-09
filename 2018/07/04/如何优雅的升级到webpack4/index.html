@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        如何优雅的升级到webpack4｜leizore的个人博客
+        leizore的个人博客
         
     </title>
 
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://p8x2gzqw0.bkt.clouddn.com/timg.jpeg">
+     src="">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://p8x2gzqw0.bkt.clouddn.com/timg.jpeg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+        background-image: url('')
     }
 
     
@@ -155,7 +155,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>如何优雅的升级到webpack4</h1>
+                    <h1></h1>
                     
                     <span class="meta">
                          作者 Zhao lei
@@ -165,9 +165,6 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/Tags/#webpack"
-                           title="webpack">webpack</a>
-                        
                     </div>
                 </div>
             </div>
@@ -175,7 +172,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            如何优雅的升级到webpack4
+            
         </span>
     </div>
 </header>
@@ -186,7 +183,7 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在距离2018年2月15号webpack4.0.0出来已经有一段时间了，我试了一下，使用vue官网上的搭建方式搭建的项目的 webpack 版本还是3.6.0，虽然现在已经出了 @vue/cli 3.0，但是楼主还没试过，听说很强大，想要试水的可以看文档 <a href="https://cli.vuejs.org/guide/" target="_blank" rel="noopener">@vue/cli</a>。<br>受号称0配置的parcel启发，webpack4 增加了一些默认配置，摒弃掉了一些难懂的配置，对用户更加友好，下面我来讲一讲比较大的一些变化</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在距离2018年2月15号webpack4.0.0出来已经有一段时间了，现在已经出了 @vue/cli 3.0，但是楼主还没试过，听说很强大，想要试水的可以看文档 <a href="https://cli.vuejs.org/guide/" target="_blank" rel="noopener">@vue/cli</a>，官方脚手架都用上webpack4了，你项目还停留在webpack3，甚至webpack2，是不是觉得落伍了。<br>受号称0配置的parcel启发，webpack4 增加了一些默认配置，摒弃掉了一些难懂的配置，对用户更加友好，下面我来讲一讲比较大的一些变化</p>
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>不再支持 Node.js 4。</p>
 <h2 id="默认出入口"><a href="#默认出入口" class="headerlink" title="默认出入口"></a>默认出入口</h2><p>在 Webpack 4 中，不再强制要求指定 entry 和 output 路径。webpack 4 会默认 entry 为 ./src，output 为 ./dist，当然了，这只是开胃菜。</p>
 <h2 id="mode-构建模式"><a href="#mode-构建模式" class="headerlink" title="mode 构建模式"></a>mode 构建模式</h2><p>webpack 提供了两种构建模式可供选择 development 和 production<br>|选项|描述|<br>|:-|:-|<br>|development|会将 process.env.NODE_ENV 的值设为 development。启用 NamedChunksPlugin(固化 runtime 内以及在使用动态加载时分离出的 chunk 的 chunk id) 和 NamedModulesPlugin(开启 HMR[热重载]的时候使用该插件会显示模块的相对路径)。|<br>|production|会将 process.env.NODE_ENV 的值设为 production。启用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin 和 UglifyJsPlugin.|<br>也就是说如果 mode 为development 时候官方脚手架可以砍掉的代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.development.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">+ mode: <span class="string">'development'</span></span><br><span class="line">- plugins: [</span><br><span class="line">-   <span class="keyword">new</span> webpack.NamedModulesPlugin(),</span><br><span class="line">-   <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">-     <span class="string">'process.env'</span>: <span class="built_in">require</span>(<span class="string">'../config/dev.env'</span>)</span><br><span class="line">-   &#125;),</span><br><span class="line">- ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -202,6 +199,9 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// webpack.dev.conf.js</span><br><span class="line">const config = &#123;</span><br><span class="line">   // ...</span><br><span class="line">   plugins: [</span><br><span class="line">-    new webpack.NamedModulesPlugin()</span><br><span class="line">   ]</span><br><span class="line">+  optimization: &#123;</span><br><span class="line">+    namedModules: true</span><br><span class="line">+  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>optimization.splitChunks 默认是不用设置的。如果 mode 是 production，那 Webpack 4 就会开启 Code Splitting。默认 Webpack 4 只会对按需加载的代码做分割。如果我们需要配置初始加载的代码也加入到代码分割中，可以设置 splitChunks.chunks 为 ‘all’</p>
+</blockquote>
 <h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p>webpack4 的mode 设置成 production 时，默认开启代码压缩，但是我要敲黑板，划重点了，uglifyjs-webpack-plugin 终于到 v1.0.0 版本了，支持多进程压缩，缓存以及es6语法，无需单独安装转换器。感动不感动。想看的话可以看这里<a href="https://github.com/webpack-contrib/uglifyjs-webpack-plugin" target="_blank" rel="noopener">顺风车</a>。想要覆盖配置可以这样</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const UglifyJsPlugin = require(&apos;uglifyjs-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  // ...</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimizer: [</span><br><span class="line">      new UglifyJsPlugin() // 具体配置可看github</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>##移除的功能 ##<br>移除了 module.loaders<br>移除了 loaderContext.options<br>移除了 Compilation.notCacheable<br>移除了 NoErrorsPlugin<br>移除了 Dependency.isEqualResource<br>移除了 NewWatchingPlugin<br>移除了 CommonsChunkPlugin</p>
@@ -216,7 +216,13 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.less$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">'vue-style-loader'</span>,</span><br><span class="line">          <span class="string">'css-loader'</span>,</span><br><span class="line">          <span class="string">'less-loader'</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="mini-css-extract-plugin-css-抽取"><a href="#mini-css-extract-plugin-css-抽取" class="headerlink" title="mini-css-extract-plugin css 抽取"></a>mini-css-extract-plugin css 抽取</h3><p>webpack v4 官方不在推荐使用 extract-text-webpack-plugin 了，改换 mini-css-extract-plugin</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// webpack4</span><br><span class="line">npm install -D mini-css-extract-plugin</span><br><span class="line"></span><br><span class="line">// webpack.config.js</span><br><span class="line">var MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;)</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  // 其它选项...</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      // ... 忽略其它规则</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          process.env.NODE_ENV !== &apos;production&apos;</span><br><span class="line">            ? &apos;vue-style-loader&apos;</span><br><span class="line">            : MiniCssExtractPlugin.loader,</span><br><span class="line">          &apos;css-loader&apos;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // ... 忽略 vue-loader 插件</span><br><span class="line">    new MiniCssExtractPlugin(&#123;</span><br><span class="line">      filename: style.css</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// webpack3</span><br><span class="line">npm install -D extract-text-webpack-plugin</span><br><span class="line">// webpack.config.js</span><br><span class="line">var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;)</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  // 其它选项...</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      // ...其它规则忽略</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        loader: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: &apos;css-loader&apos;,</span><br><span class="line">          fallback: &apos;vue-style-loader&apos;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // ...vue-loader 插件忽略</span><br><span class="line">    new ExtractTextPlugin(&quot;style.css&quot;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// webpack3</span><br><span class="line">npm install -D extract-text-webpack-plugin</span><br><span class="line">// webpack.config.js</span><br><span class="line">var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  // 其它选项...</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      // ...其它规则忽略</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        loader: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: &apos;css-loader&apos;,</span><br><span class="line">          fallback: &apos;vue-style-loader&apos;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // ...vue-loader 插件忽略</span><br><span class="line">    new ExtractTextPlugin(&quot;style.css&quot;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h2><p>对webpack3官方脚手架还不是很了解的同学可以看我根据自己理解写的注释，详情点<a href="https://github.com/leizore/webpack3-common" target="_blank" rel="noopener">这里</a><br>觉得麻烦，不想自己搞？那也没关系，我自己按照脚手架改了一套，感兴趣的可以试试点<a href="https://github.com/leizore/vue-webpack4-template" target="_blank" rel="noopener">这里</a><br>觉得不错请star哦，另外，我准备在下一篇文章中将如何如优化webpack，喜欢的话可关注</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://webpack.js.org/concepts/" target="_blank" rel="noopener">webpack 文档</a></li>
+<li><a href="https://github.com/webpack/webpack/releases/tag/v4.0.0" target="_blank" rel="noopener">webpack github release</a></li>
+<li><a href="https://juejin.im/post/5b304f1f51882574c72f19b0" target="_blank" rel="noopener">Webpack 4 配置最佳实践</a></li>
+</ol>
 
                 <hr>
                 
@@ -242,7 +248,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认出入口"><span class="toc-text">默认出入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mode-构建模式"><span class="toc-text">mode 构建模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-动态导入"><span class="toc-text">import(): 动态导入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optimization-配置项"><span class="toc-text">optimization 配置项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩"><span class="toc-text">压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#周边"><span class="toc-text">周边</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-loader"><span class="toc-text">vue-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mini-css-extract-plugin-css-抽取"><span class="toc-text">mini-css-extract-plugin css 抽取</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认出入口"><span class="toc-text">默认出入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mode-构建模式"><span class="toc-text">mode 构建模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-动态导入"><span class="toc-text">import(): 动态导入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optimization-配置项"><span class="toc-text">optimization 配置项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩"><span class="toc-text">压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#周边"><span class="toc-text">周边</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-loader"><span class="toc-text">vue-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mini-css-extract-plugin-css-抽取"><span class="toc-text">mini-css-extract-plugin css 抽取</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#福利"><span class="toc-text">福利</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -263,9 +269,6 @@
                         <a href="/tags/">FEATURED TAGS</a>
                     </h5>
                     <div class="tags">
-                        
-                        <a class="tag" href="/tags/#webpack"
-                           title="webpack">webpack</a>
                         
                     </div>
                 </section>
